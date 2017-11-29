@@ -1,0 +1,85 @@
+Partiton Notes
+
+two pointers I and J are essential for partition subroutine
+
+index j what we've looked at so far versus what we haven't looked at- i.e the current element of array we are inspecting
+
+index i amongst stuff we've seen, where "i" is split between those less and bigger than the pivot-- as in any elements with index <= i is less than the pivot. i starts out as negative 1 since we haven't looked at any elements yet
+
+   i    j                               H
+     [10, 80, 30, 90, 40, 50, 70];
+
+
+10 < 70
+so increment i by 1, and 10 stays where it is for now
+
+        i     j    
+     [10, 80, 30, 90, 40, 50, 70];
+
+80 > 70, so don't do anything
+
+
+               i      j   
+     [10, 80, 30, 90, 40, 50, 70];
+
+30 < 70, so now we have a found an element that we know is in the wrong place, needs to be swapped with the 80 that we found last iteration
+
+after first swap:
+
+              i      j   
+     [10, 30, 80, 90, 40, 50, 70];
+
+
+              i             j
+     [10, 30, 80, 90, 40, 50, 70];
+
+since 90 > 70, skip to 40
+
+              i                    j
+     [10, 30, 80, 90, 40, 50, 70];
+
+beauty of algorithm is as we are iterating, we know every element with index i+1,
+should be bigger than the pivot and every element up to i is less., So when we come across an element that is smaller than pivot (40), we can simply increment pointer i to point to an element > than pivot and then swap with the lesser element-- demonstrated below
+
+i++
+----(now i is pointing to 80 which is greater than pivot. to maintain the rule that 
+elements low through i (inclusive) are less than or equal to the pivot, we swap 80 and 40 with each other. The trick is that 
+
+                      i              j
+     [10, 30, 80, 90, 40, 50, 70];
+
+swap(arr, 2, 3);
+
+                      i             j
+     [10, 30, 40, 90, 80, 50, 70];
+
+
+Move on to the last element to check (50)
+
+                      i                  j
+     [10, 30, 40, 90, 80, 50, 70];
+
+50 < 70, increment i to 3 and swap
+
+                            i             j
+     [10, 30, 40, 50, 80, 90, 70];
+
+So now done with for loop, we've looked at every element in the array besides the pivot and have our boundary i which tells us which elements are less than the pivot or greater than the pivot.  
+
+Think of the i pointer as a boundary like this
+
+                             i                    i+1(elements greater than pivot)            
+     [10, 30, 40, 50]  ||||||||||  [80, 90, 70];
+
+ So we know exactly where the pivot should be! Just need to swap the pivot with i+1.
+
+swap(arr, high, i+1)    high is still pointing to 70, the pivot
+
+  										i+1
+ so after first partition you have [10, 30, 40, 50, 70, 90, 80]
+with the pivot at  index 4, and we return that for the rest of quickSort to operate on the 2 new halves
+
+quickSort(arr, low, 3)   ---- [10, 30, 40, 50]
+quickSort(arr, 5, high);        [90, 80]
+We don't bother with 70 anymore because we know the pivot is in its final sorted position
+
