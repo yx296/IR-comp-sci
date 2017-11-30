@@ -39,7 +39,7 @@ function partition(arr, low, high) {
     }
   }
   swap(arr, high, i + 1);
-  return i+1; // after partition process, return the index of
+  return i+1; // after partition process, return the index of the pivot
 }
 
 console.log(quickSort(arr, 0, arr.length-1));
